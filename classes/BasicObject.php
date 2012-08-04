@@ -1020,6 +1020,10 @@ abstract class BasicObject {
 		}
 		return get_class($this). "{".implode(", ",$content)."}";
 	}
+
+	public function data() {
+		return $this->_data;
+	}
 }
 class UndefinedMemberException extends Exception{}
 class UndefinedFunctionException extends Exception{}

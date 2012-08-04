@@ -21,9 +21,9 @@
 		<? } ?>
 
 		<? if($entity->visible) { ?>
-			<span class='label label-warning'>Synlig</span>
+			<span class='label label-warning visible-status'>Synlig</span>
 		<? } else { ?>
-			<span class='label label-info'>Dold</span>
+			<span class='label label-info visible-status'>Dold</span>
 		<? } ?>
 
 
@@ -37,6 +37,7 @@
 		<strong>Liv: </strong> <span class='life_attr muted'><?=$entity->life_remaining?> / <?=$entity->life?></span><br/>
 		<strong>Rustning <?=($entity->armor_type == 'natural') ? " (naturlig)":""?>: </strong> <span class='armor_attr muted'><?=$entity->armor_str()?></span><br/>
 		<form class='form-inline data-form'>
+			<input type='hidden' name='entity_id' class='entity-id' value='<?=$entity->id?>'/>
 			<label for='visible_<?=$entity->id?>'><strong>Synlig: </strong></label>
 			<input type='checkbox' class='entity-visible' name = 'visible' <?=($entity->visible ? "checked='checked'" : "" ) ?> id='visible_<?=$entity->id?>'/>
 			<br/>

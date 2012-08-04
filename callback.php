@@ -43,6 +43,9 @@ if($action == "add_entity") {
 	);
 	output_json($output);
 
+} else if($action == "update_entity_attributes") {
+	$entity = Entity::update_attributes($_POST);
+	output_json($entity->data());
 } else {
 	echo "Invalid action!";
 }

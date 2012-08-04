@@ -13,11 +13,7 @@ $(function() {
 			entity_container.find('.life_attr').html(data.life_remaining + " / " + data.life);
 			entity_container.find('.armor_attr').html(data.armor_str);
 
-			var log = entity_container.find(".log");
-			while(log.children().length >= 5) {
-				log.children().last().remove();
-			}
-			log.prepend("<p>Tog "+data.damage_done+" skada</p>");
+			log(entity_container, "Tog "+data.damage_done+" skada");
 
 			var pbar = entity_container.find(".life");
 			var target_width = data.life_percent+"%";
@@ -45,6 +41,28 @@ $(function() {
 		this.reset();
 		return false;
 	});
+
+	$('.entity .entity-visible').live('change', function() {
+		var entity_container = $(this).closest(".entity");
+		var labels = entity_container.find(".labels");
+		var id = $(this).siblings('.entity-id').val();
+		labels.find(".visible-status").remove();
+		$.post('callback.php', {'action': 'update_entity_attributes', 'id': id, 'visible': $(this).attr("checked")}, function(data) {
+			if(data.visible) {
+				labels.append("<span class='label label-warning visible-status'>Synlig</span>");
+			} else {
+				labels.append("<span class='label label-info visible-status'>Dold</span>");
+			}
+		});
+	});
+
+	$('.entity .entity-info').live('change', function() {
+		var entity_container = $(this).closest(".entity");
+		var id = $(this).siblings('.entity-id').val();
+		$.post('callback.php', {'action': 'update_entity_attributes', 'id': id, 'info': $(this).val()}, function(data) {
+			log(entity_container, "Uppdaterade info");
+		});
+	});
 });
 
 function progress_class(hp_percent) {
@@ -55,4 +73,12 @@ function progress_class(hp_percent) {
 	} else {
 		return "danger";
 	}
+}
+
+function log(entity_container, text) {
+	var log = entity_container.find(".log");
+	while(log.children().length >= 5) {
+		log.children().last().remove();
+	}
+	log.prepend("<p>" + text + "</p>");
 }
