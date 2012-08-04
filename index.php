@@ -11,6 +11,8 @@ include "index_actions.php";
 		<title>DoD Spelledarverktyg</title>
 		<script src="jquery.js" type="text/javascript"></script>
 		<script src="dod.js" type="text/javascript"></script>
+		<link type="text/css" rel="stylesheet" href="bootstrap.min.css" />
+		<link type="text/css" rel="stylesheet" href="dod.css" />
 		<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
 		<script type="text/javascript" src="js/toggle_display.js"></script>
 		<script type="text/javascript" src="js/forum.js"></script>
@@ -20,23 +22,27 @@ include "index_actions.php";
 		<link type="text/plain" rel="author" href="/humans.txt" />
 	</head>
 	<body>
-	<div id="battle_select">
-		<h2>Ändra/skapa strid</h2>
-		<form method="get">
+	<div id="battle_select" class="well">
+		<h4>Ändra/skapa strid</h2>
+		<form method="get" class="form-horizontal">
 			<label for="battle_id">Befintlig strid:</label>
 			<select id="battle_id" name="id">
 <? foreach(Battle::selection() as $battle) { ?>
 				<option value="<?=$battle->id?>"><?=$battle->name?></option>
 <? } ?>
 			</select>
-			<input type="submit" value="Välj"/>
+			<input type="submit" value="Välj" class="btn btn-primary"/>
 		</form>
 		<hr/>
-		<form method="post">
+		<form method="post" class="form-horizontal">
 			<label for="battle_new">Ny strid: </label>
 			<input type="text" name="new_battle"/>
-			<input type="submit" value = "Skapa"/>
+			<input type="submit" value = "Skapa" class="btn btn-success"/>
 		</form>
 	</div>
+	<div id="entities">
+		
+	</div>
+
 	</body>
 </html>
