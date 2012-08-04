@@ -5,11 +5,11 @@
 ?>
 <div class="well entity">
 	<div class='data'>
-		<strong><?=$entity->name?></strong>
+		<strong <?=$entity->dead() ? "class='dead muted'":""?> ><?=$entity->name?></strong>
 
 		<div class='labels'>
 		<? if($entity->dead()) { ?>
-			<span class='label label-warning'>Död</span>
+			<span class='label label-inverse'>Död</span>
 		<? } ?>
 
 		<?  if($entity->type == 'friendly') { ?>
@@ -21,9 +21,9 @@
 		<? } ?>
 
 		<? if($entity->visible) { ?>
-			<span class='label label-info'>Synlig</span>
+			<span class='label label-warning'>Synlig</span>
 		<? } else { ?>
-			<span class='label label-inverse'>Dold</span>
+			<span class='label label-info'>Dold</span>
 		<? } ?>
 
 

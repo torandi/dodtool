@@ -24,6 +24,8 @@ class Entity extends BasicObject {
 		$damage_done = max($damage - $this->armor_protection(), 0);
 		$this->armor -= $damage_done;
 		$this->life_remaining -= $damage_done;
+		if($this->armor < 0) $this->armor = 0;
+		if($this->life_remaining < 0) $this->life_remaining = 0;
 		return $damage_done;	
 	}
 

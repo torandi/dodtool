@@ -8,11 +8,27 @@ $(function() {
 	});
 
 	$(".entity .hit-form").live('submit',function(e) {
-		var entity_container = $(this).parent().parent(); //urk
+		var entity_container = $(this).closest(".entity");
 		$.post('callback.php', $(this).serialize(), function(data) {
-			var pbar = entity_container.children(".data").children(".life");
-			pbar.children('.bar').css('width', data.life_percent+"%");
-			pbar.attr('class', 'life progress progress-'+progress_class(data.life_percent));
+			var pbar = entity_container.find(".life");
+			var target_width = data.life_percent+"%";
+			if(data.life_remaining == 0) target_width = "1px";
+
+			pbar.children('.bar').animate( { 'width':target_width}, {
+				duration: 'slow',
+				step: function() {
+					var percent = pbar.children(".bar").width() / pbar.width();
+					pbar.attr('class', 'life progress progress-'+progress_class(percent*100.0));
+				},
+				complete: function() {
+					pbar.attr('class', 'life progress progress-'+progress_class(data.life_percent));
+					if(data.life_remaining == 0) {
+						pbar.children('.bar').css("width", "0px");
+						entity_container.find(".labels").prepend("<span class='label label-inverse'>Död</span>");
+						entity_container.find("strong").first().addClass("dead muted");
+						entity_container.find(".bottom").hide();
+					}
+			}});
 		});
 		this.reset();
 		return false;

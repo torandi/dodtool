@@ -51,7 +51,7 @@
 .clear {
 	clear: both;
 }
-/*
-.form-horizontal .control-label {
 
-}*/
+.dead {
+	text-decoration: line-through;
+}
