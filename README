@@ -1,0 +1,12 @@
+Verktyg för spelledare i Drakar och Demoner
+
+== Nuvarande features ==
+* Hantering av spelledarpersoner i strid
+** Tar hänsyn till rustning och håller koll på liv
+
+== Planerade features ==
+* Karta
+** Utplacering av spelledarpersoner och spelare
+** Stöd för dålda slp
+** Utplacering av träd och andra items
+** Rita bakgrund
