@@ -10,6 +10,9 @@ $(function() {
 	$(".entity .hit-form").live('submit',function(e) {
 		var entity_container = $(this).closest(".entity");
 		$.post('callback.php', $(this).serialize(), function(data) {
+			entity_container.find('.life_attr').html(data.life_remaining + " / " + data.life);
+			entity_container.find('.armor_attr').html(data.armor_str);
+
 			var pbar = entity_container.find(".life");
 			var target_width = data.life_percent+"%";
 			if(data.life_remaining == 0) target_width = "1px";

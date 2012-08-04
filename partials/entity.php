@@ -34,8 +34,8 @@
 	</div>
 
 	<div class='attributes'>
-		<strong>Liv: </strong> <span class='muted'><?=$entity->life_remaining?> / <?=$entity->life?></span><br/>
-		<strong>Rustning <?=($entity->armor_type == 'natural') ? " (naturlig)":""?>: </strong> <span class='muted'><?=$entity->armor_str()?></span><br/>
+		<strong>Liv: </strong> <span class='life_attr muted'><?=$entity->life_remaining?> / <?=$entity->life?></span><br/>
+		<strong>Rustning <?=($entity->armor_type == 'natural') ? " (naturlig)":""?>: </strong> <span class='armor_attr muted'><?=$entity->armor_str()?></span><br/>
 		<form class='form-inline data-form'>
 			<label for='visible_<?=$entity->id?>'><strong>Synlig: </strong></label>
 			<input type='checkbox' class='entity-visible' name = 'visible' <?=($entity->visible ? "checked='checked'" : "" ) ?> id='visible_<?=$entity->id?>'/>
