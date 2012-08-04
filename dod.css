@@ -40,7 +40,7 @@
 	margin-top: 5px;
 }
 
-.bottom {
+.side {
 	float: left;
 }
 
@@ -54,4 +54,16 @@
 
 .dead {
 	text-decoration: line-through;
+}
+
+.log {
+	padding: 2px;
+	margin: 2px;
+}
+
+.log p {
+	margin: 0px;
+	color: #999;
+	font-size: 0.9em;
+	line-height: 1.4em;
 }

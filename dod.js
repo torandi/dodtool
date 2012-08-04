@@ -13,6 +13,12 @@ $(function() {
 			entity_container.find('.life_attr').html(data.life_remaining + " / " + data.life);
 			entity_container.find('.armor_attr').html(data.armor_str);
 
+			var log = entity_container.find(".log");
+			while(log.children().length >= 5) {
+				log.children().last().remove();
+			}
+			log.prepend("<p>Tog "+data.damage_done+" skada</p>");
+
 			var pbar = entity_container.find(".life");
 			var target_width = data.life_percent+"%";
 			if(data.life_remaining == 0) target_width = "1px";
@@ -27,9 +33,12 @@ $(function() {
 					pbar.attr('class', 'life progress progress-'+progress_class(data.life_percent));
 					if(data.life_remaining == 0) {
 						pbar.children('.bar').css("width", "0px");
-						entity_container.find(".labels").prepend("<span class='label label-inverse'>Död</span>");
+						//Remove existing dead label (to prevent doublets)
+						entity_container.find(".labels").children(".dead-label").remove();
+
+						entity_container.find(".labels").prepend("<span class='label label-inverse dead-label'>Död</span>");
 						entity_container.find("strong").first().addClass("dead muted");
-						entity_container.find(".bottom").hide();
+						entity_container.find(".hit-form").hide();
 					}
 			}});
 		});

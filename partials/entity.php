@@ -9,7 +9,7 @@
 
 		<div class='labels'>
 		<? if($entity->dead()) { ?>
-			<span class='label label-inverse'>Död</span>
+			<span class='label label-inverse dead-label'>Död</span>
 		<? } ?>
 
 		<?  if($entity->type == 'friendly') { ?>
@@ -44,7 +44,7 @@
 		</form>
 	</div>
 
-	<div class='bottom'>
+	<div class='side'>
 		<? if(!$entity->dead()) { ?>
 			<form class='form-inline hit-form'>
 				<input type='hidden' name='action' value='hit_entity'/>
@@ -53,6 +53,8 @@
 				<input type='submit' value='Gör skada' class='btn btn-danger'/>
 			</form>
 		<? } ?>
+		<div class='log'>
+		</div>
 	</div>
 
 	<p class='clear'/>
