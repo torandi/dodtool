@@ -51,15 +51,25 @@ include "index_actions.php";
 			</p>
 			<hr/>
 			<form id="add_entity_form" class="form-horizontal">
-
+				<input type='hidden' name='action' value='add_entity'/>
+				<input type='hidden' name='battle_id' value='<?=$battle->id?>'/>
 				<?=range_field("add_entity", "count", "Antal: ")?>
 				<?=field("add_entity", "name", "Namn", "text")?>
 				<?=range_field("add_entity", "life", "Liv: ")?>
 				<?=range_field("add_entity", "armor", "Rustning (BV): ")?>
 				<?=radio_select("add_entity", "armor_type", "Rustningstyp: ", array('normal'=>"Normal", 'natural'=>"Naturlig"))?>
+				<?=radio_select("add_entity", "type", "Typ: ", array('hostile'=>"Fientlig", 'neutral'=>"Neutral", 'friendly' => "Vänlig"))?>
 				<?=field("add_entity", "visible", "Visa för spelare", "checkbox")?>
 				<?=textarea("add_entity", "info", "Info")?>
+				<input type="submit" class="btn btn-primary" value="Skapa"/>
 			</form>
+		</div>
+		<div id="entities">
+<?
+		foreach($battle->Entity() as $entity) {
+			include "partials/entity.php";
+		}
+?>
 		</div>
 	<? } ?>
 	</div>

@@ -17,3 +17,13 @@ function post($var, $default=NULL) {
 function redirect($url) {
 	header("Location: $url");
 }
+
+function hp_class_select($hp_percent) {
+	if($hp_percent > 66) {
+		return "success";
+	} else if($hp_percent > 33) {
+		return "warning";
+	} else {
+		return "danger";
+	}
+}

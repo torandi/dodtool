@@ -11,7 +11,3 @@ if(post("new_battle")) {
 	$battle->commit();
 	redirect("index.php?id={$battle->id}");
 }
-
-if($battle) {
-
-}

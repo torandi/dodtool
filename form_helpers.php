@@ -5,8 +5,8 @@ function range_field($form_name, $name, $label) {
 		<div class='control-group'>
 			<label class='control-label' for='{$form_name}_$name'>$label</label>
 			<div class='controls'>
-				<input type='number' id='{$form_name}_$name' name='{$name}_from' class='input-mini' style='text-align: right'/> till
-				<input type='number' name='{$name}_to' class='input-mini' style='text-align: right'/>
+				<input type='number' id='{$form_name}_$name' name='{$name}_min' class='input-mini' style='text-align: right'/> till
+				<input type='number' name='{$name}_max' class='input-mini' style='text-align: right'/>
 			</div>
 		</div>
 	";

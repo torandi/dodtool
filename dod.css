@@ -10,8 +10,39 @@
 	margin: 10px;
 }
 
+.entity .data {
+	width: 500px;
+	float: left;
+}
+
+.entity .attributes {
+	float: left;
+	width: 200px;
+	padding: 0px 10px;
+}
+
+.hit {
+}
+
+.labels {
+	float: right;
+}
+
 #add_entity {
 	max-width: 400px;
+}
+
+.progress {
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+.hit-form {
+	margin-bottom: 0px;
+}
+
+.clear {
+	clear: both;
 }
 /*
 .form-horizontal .control-label {
