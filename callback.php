@@ -30,4 +30,19 @@ if($action == "add_entity") {
 		$entity->commit();
 		include "partials/entity.php";
 	}
+} else if($action == "hit_entity") {
+	$entity = Entity::from_id(post("entity_id"));
+	$damage = $entity->hit(post("damage"));
+	$entity->commit();
+	$output = array(
+		'life' => $entity->life,
+		'life_remaining' => $entity->life_remaining,
+		'armor_str' => $entity->armor_str(),
+		'life_percent' => $entity->life_percent(),
+		'damage_done' => $damage
+	);
+	output_json($output);
+
+} else {
+	echo "Invalid action!";
 }

@@ -28,7 +28,7 @@
 
 
 		</div>
-		<div class='progress progress-<?=hp_class_select($entity->life_percent())?>'>
+		<div class='life progress progress-<?=hp_class_select($entity->life_percent())?>'>
 		<div class='bar' style='width: <?=$entity->life_percent()?>%'></div>
 		</div>
 	</div>
@@ -49,7 +49,7 @@
 			<form class='form-inline hit-form'>
 				<input type='hidden' name='action' value='hit_entity'/>
 				<input type='hidden' name='entity_id' value='<?=$entity->id?>'/>
-				<input type='number' class='input-mini' name='hit'/>
+				<input type='number' class='input-mini' name='damage'/>
 				<input type='submit' value='Gör skada' class='btn btn-danger'/>
 			</form>
 		<? } ?>

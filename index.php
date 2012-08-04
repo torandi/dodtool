@@ -22,8 +22,8 @@ include "index_actions.php";
 		<form method="get" class="form-horizontal">
 			<label for="battle_id">Befintlig strid:</label>
 			<select id="battle_id" name="id">
-<? foreach(Battle::selection() as $battle) { ?>
-				<option value="<?=$battle->id?>"><?=$battle?></option>
+<? foreach(Battle::selection() as $b) { ?>
+				<option value="<?=$b->id?>"><?=$b?></option>
 <? } ?>
 			</select>
 			<input type="submit" value="Välj" class="btn btn-primary"/>

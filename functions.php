@@ -27,3 +27,9 @@ function hp_class_select($hp_percent) {
 		return "danger";
 	}
 }
+
+function output_json($data) {
+	header("Content-Type: text/json");
+	echo json_encode($data);
+	exit();
+}

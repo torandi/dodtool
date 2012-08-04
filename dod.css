@@ -22,7 +22,7 @@
 
 .entity .attributes {
 	float: left;
-	width: 150px;
+	width: 210px;
 	padding: 0px 10px;
 	margin-right: 10px;
 }
@@ -46,10 +46,6 @@
 
 .hit-form, .data-form {
 	margin-bottom: 0px;
-}
-
-.data-form textarea{
-	width: 100%;
 }
 
 .clear {

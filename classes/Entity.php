@@ -17,17 +17,14 @@ class Entity extends BasicObject {
 	}
 
 	public function armor_str() {
-		if($this->armor_type == 'natural') {
-			return $this->armor;
-		} else {
-			return $this->armor . " / " . $this->armor_protection();
-		}
+		return $this->armor . " / " . $this->armor_protection();
 	}
 
 	public function hit($damage) {
-		if($damage > $this->armor_protection()) {
-			
-		}
+		$damage_done = max($damage - $this->armor_protection(), 0);
+		$this->armor -= $damage_done;
+		$this->life_remaining -= $damage_done;
+		return $damage_done;	
 	}
 
 	public function life_percent() {
