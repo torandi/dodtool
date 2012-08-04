@@ -29,8 +29,12 @@
 
 		</div>
 		<div class='life progress progress-<?=hp_class_select($entity->life_percent())?>'>
-		<div class='bar' style='width: <?=$entity->life_percent()?>%'></div>
+			<div class='bar' style='width: <?=$entity->life_percent()?>%'></div>
 		</div>
+
+		<form class='form-inline data-form'>
+			<textarea name='info' class='entity-info' id='info_<?=$entity->id?>'><?=$entity->info?></textarea>
+		</form>
 	</div>
 
 	<div class='attributes'>
@@ -41,7 +45,12 @@
 			<label for='visible_<?=$entity->id?>'><strong>Synlig: </strong></label>
 			<input type='checkbox' class='entity-visible' name = 'visible' <?=($entity->visible ? "checked='checked'" : "" ) ?> id='visible_<?=$entity->id?>'/>
 			<br/>
-			<textarea name='info' class='entity-info' id='info_<?=$entity->id?>'><?=$entity->info?></textarea>
+			<label for='state_<?=$entity->id?>'><strong>Visad status: </strong></label>
+			<select class='input-small entity-state' id='state_<?=$entity->id?>'>
+				<option value='normal' <?=$entity->state == 'normal' ? 'selected="selected"' : '' ?> >Normalt</option>
+				<option value='unconscious' <?=$entity->state == 'unconscious' ? 'selected="selected"' : '' ?> >Utslagen</option>
+				<option value='dead' <?=$entity->state == 'dead' ? 'selected="selected"' : '' ?> >Död</option>
+			</select>
 		</form>
 	</div>
 

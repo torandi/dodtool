@@ -63,6 +63,14 @@ $(function() {
 			log(entity_container, "Uppdaterade info");
 		});
 	});
+
+	$('.entity .entity-state').live('change', function() {
+		var entity_container = $(this).closest(".entity");
+		var id = $(this).siblings('.entity-id').val();
+		$.post('callback.php', {'action': 'update_entity_attributes', 'id': id, 'state': $(this).val()}, function(data) {
+			log(entity_container, "Uppdaterade status till " + data.state);
+		});
+	});
 });
 
 function progress_class(hp_percent) {
