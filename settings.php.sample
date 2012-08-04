@@ -1,0 +1,25 @@
+<?php
+/**
+ * Database settings
+ *
+ * Settings for connecting to the database
+ */
+$db_settings = array(
+	'host'=>'localhost',
+	'port'=>'3306',
+	'username'=>'root',
+	'password'=>'',
+	'database'=>'dodtool',
+	'charset'=>'utf8'
+);
+
+/**
+ * Debug flag.
+ *
+ * If $debug is enabled additional messages (exceptions, warnings, errors, etc)
+ * is shown directly in the output.
+ *
+ * Production default: false
+ * Development default: true
+ */
+$debug = true;
