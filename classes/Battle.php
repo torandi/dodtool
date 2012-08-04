@@ -8,4 +8,16 @@ class Battle extends BasicObject {
 		return 'battles';
 	}
 
+	public function date() {
+		return strtotime($this->created_at);
+	}
+
+	public function strdate() {
+		return date("Y-m-d", $this->date());
+	}
+
+	public function __tostring() {
+		return $this->name . " (" . $this->strdate() . ")";
+	}
+
 };

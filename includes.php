@@ -5,6 +5,7 @@ define('HTML_ACCESS', true);
 
 include "settings.php";
 include "functions.php";
+include "form_helpers.php";
 
 /**
  * Automatiskt anropad av php-5 on-demand för att include:a filer med klassdefinitioner.

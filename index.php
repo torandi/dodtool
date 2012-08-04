@@ -13,13 +13,8 @@ include "index_actions.php";
 		<script src="dod.js" type="text/javascript"></script>
 		<link type="text/css" rel="stylesheet" href="bootstrap.min.css" />
 		<link type="text/css" rel="stylesheet" href="dod.css" />
-		<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
-		<script type="text/javascript" src="js/toggle_display.js"></script>
-		<script type="text/javascript" src="js/forum.js"></script>
-		<script type="text/javascript" src="js/wz_jsgraphics.js"></script>
-		<script type="text/javascript" src="js/override_chrome_stupidity.js"></script>
 		
-		<link type="text/plain" rel="author" href="/humans.txt" />
+		<link type="text/plain" rel="author" href="humans.txt" />
 	</head>
 	<body>
 	<div id="battle_select" class="well">
@@ -28,7 +23,7 @@ include "index_actions.php";
 			<label for="battle_id">Befintlig strid:</label>
 			<select id="battle_id" name="id">
 <? foreach(Battle::selection() as $battle) { ?>
-				<option value="<?=$battle->id?>"><?=$battle->name?></option>
+				<option value="<?=$battle->id?>"><?=$battle?></option>
 <? } ?>
 			</select>
 			<input type="submit" value="Välj" class="btn btn-primary"/>
@@ -40,9 +35,33 @@ include "index_actions.php";
 			<input type="submit" value = "Skapa" class="btn btn-success"/>
 		</form>
 	</div>
-	<div id="entities">
-		
-	</div>
+	<div id="content">
+	<?  if($battle) { ?>
+		<div class="page-header">
+			<h1>
+				DoD Strid: <?=$battle->name?>
+				<small><?=$battle->strdate()?></small>
+			</h1>
+		</div>
+		<h2>Spelledarpersoner</h2>
+		<div class="well" id="add_entity">
+			<h4>Skapa nya</h4>
+			<p>
+				Värden med range slumpas inom den.
+			</p>
+			<hr/>
+			<form id="add_entity_form" class="form-horizontal">
 
+				<?=range_field("add_entity", "count", "Antal: ")?>
+				<?=field("add_entity", "name", "Namn", "text")?>
+				<?=range_field("add_entity", "life", "Liv: ")?>
+				<?=range_field("add_entity", "armor", "Rustning (BV): ")?>
+				<?=radio_select("add_entity", "armor_type", "Rustningstyp: ", array('normal'=>"Normal", 'natural'=>"Naturlig"))?>
+				<?=field("add_entity", "visible", "Visa för spelare", "checkbox")?>
+				<?=textarea("add_entity", "info", "Info")?>
+			</form>
+		</div>
+	<? } ?>
+	</div>
 	</body>
 </html>

@@ -4,3 +4,16 @@
 	margin: 5px;
 	padding: 5px;
 }
+
+#content {
+	width: 90%;
+	margin: 10px;
+}
+
+#add_entity {
+	max-width: 400px;
+}
+/*
+.form-horizontal .control-label {
+
+}*/
