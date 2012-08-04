@@ -10,6 +10,11 @@
 	margin: 10px;
 }
 
+.entity {
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+}
+
 .entity .data {
 	width: 500px;
 	float: left;
@@ -17,11 +22,9 @@
 
 .entity .attributes {
 	float: left;
-	width: 200px;
+	width: 150px;
 	padding: 0px 10px;
-}
-
-.hit {
+	margin-right: 10px;
 }
 
 .labels {
@@ -37,8 +40,16 @@
 	margin-top: 5px;
 }
 
-.hit-form {
+.bottom {
+	float: left;
+}
+
+.hit-form, .data-form {
 	margin-bottom: 0px;
+}
+
+.data-form textarea{
+	width: 100%;
 }
 
 .clear {
