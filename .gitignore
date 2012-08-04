@@ -1,1 +1,3 @@
 settings.php
+*.swp
+.console_history

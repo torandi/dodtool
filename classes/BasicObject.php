@@ -60,12 +60,14 @@ abstract class BasicObject {
 			$stmt->execute();
 			$stmt->store_result();
 			$stmt->bind_result($index);
-			
+
+			$column_ids[$table_name] = array();
 			while($stmt->fetch()) {
 				$column_ids[$table_name][] = $index;
 			}
 			$stmt->close();
 		}
+
 		return $column_ids[$table_name];
 	}
 
@@ -86,10 +88,25 @@ abstract class BasicObject {
 			return 'concat(`'.$table_name.'`.`'.implode("`, '¤', `$table_name`.`", $pk).'`)';
 		}
 	}
-	
-	public function __construct($array = null) {
-		$this->_exists = !empty($array);
+
+	/**
+	 * @param $array Assoc array of values to set in this instance
+	 * @param $exists Set to true to mark that this is an existing object, and that commits should use update
+	 */
+	public function __construct($array = null, $exists=false) {
+		if($exists && empty($array)) {
+			throw new Exception("Can't create new instance marked as existing with an empty data array");
+		}
+		$this->_exists = $exists;
 		$this->_data = $array;
+	}
+
+	/**
+	 * Clone is called on the new object once cloning is complete
+	 */
+	public function __clone() {
+		$this->_exists = false;
+		$this->_data[$this->id_name()]=null;
 	}
 
 	/**
@@ -188,6 +205,13 @@ abstract class BasicObject {
 		} catch(Exception $e) {
 			return false;
 		}
+	}
+
+	/**
+	 * Set this function to return the name of a column to sort by that if '@order' is not specified
+	 */
+	protected static function default_order() {
+		return null;
 	}
 
 	/**
@@ -332,6 +356,13 @@ abstract class BasicObject {
 			$stmt = $db->prepare($query);
 			call_user_func_array(array($stmt, 'bind_param'), $params);
 			$stmt->execute();
+			if($stmt->affected_rows <=  0) {
+				$msg = "Failed to delete object: \n";
+				if(strlen($stmt->error)>0) {
+					$msg.=$stmt->error."\n";
+				}
+				throw new Exception($msg, $stmt->errno);
+			}
 			$stmt->close();
 		}
 		unset($this);
@@ -369,7 +400,7 @@ abstract class BasicObject {
 		call_user_func_array(array($stmt, 'bind_result'), $bind_results);
 		$object = null;
 		if($stmt->fetch()) {
-			$object = new static($bind_results);
+			$object = new static($bind_results, true);
 		}
 		$stmt->close();
 		return $object;
@@ -511,7 +542,7 @@ abstract class BasicObject {
 			foreach($result as $key => $value){
 				$tmp[$key] = $value;
 			}
-			$ret[] = new static($tmp);
+			$ret[] = new static($tmp, true);
 		}
 		$stmt->close();
 		return $ret;
@@ -525,6 +556,13 @@ abstract class BasicObject {
 		$order = array();
 		$user_params = array();
 		$types = self::handle_params($params, $joins, $wheres, $order, $table_name, $limit, $user_params, 'AND');
+
+		if(count($order) == 0 && strpos(strtolower($wheres),'order by') === false) {
+			// Set default order
+			if(static::default_order() != null) 
+				$order[] = static::default_order();
+		}
+
 		$query = "SELECT ";
 		switch($select) {
 			case '*':
@@ -710,6 +748,61 @@ abstract class BasicObject {
 		return $types;
 	}
 
+	/**
+	 * Update or create an object from an array (often postdata)
+	 * By default this method performs commit() on the object before it is returned, but that
+	 * can be turned of (see @param $options)
+	 *
+	 * @param $array An assoc array (for example from postdata) with $field_name=>$value. 
+	 *						If ["id"] or [id_name] is set the model is marked as existing, 
+	 *						otherwise it is treated as a new object.
+	 *
+	 *						Note: To use this method with checkboxes a hidden field with the same name and value
+	 *						0 must exist, otherwise the value will not be changed. This is because the function is
+	 *						build to allow partial updates of a model and loads any missing data from the database.
+	 *
+	 * @param $options An array with options
+	 *						empty_to_null: Set to true to replace all instances of "" with null. (default false)
+	 *						commit: Set to false to not perform commit()
+	 */
+	public static function update_attributes($array, $options=array("empty_to_null"=>false, "commit"=>true)) {
+		if(isset($options["empty_to_null"]) && $options["empty_to_null"] == true) {
+			foreach($array as $k => $v) {
+				if($v == "")
+					$array[$k] = null;
+			}
+		}
+
+		$obj = new static($array);
+
+		//Change [id] to [id_name] if [id] is set but id_name()!='id'
+		if($obj->id_name() != "id" 
+			&& isset($obj->_data['id'])
+			&& !is_null($obj->_data['id'])
+			&& !empty($obj->_data['id'])
+			&& !isset($obj->_data[$obj->id_name()])) {
+				$obj->_data[$obj->id_name()] = $obj->_data['id'];
+				unset($obj->_data['id']);
+		} else if($obj->id_name() != "id") {
+			//Prevent errors where the id field has another name and ['id'] is null
+			unset($obj->_data['id']);
+		}
+	
+		$id = $obj->id;
+
+		if($id!=null && $id!="") {
+			$old_obj = static::from_id($id);
+			$obj->_data = array_merge($old_obj->_data,$obj->_data);
+			$obj->_exists = true; //Mark as existing
+		}
+		
+		if(!isset($options["commit"]) || $options["commit"] == true) {
+			$obj->commit();
+		}
+
+		return $obj;
+	}
+
 	private static function columns($table){
 		global $db;
 		static $columns = array();
@@ -784,8 +877,7 @@ abstract class BasicObject {
 		if(class_exists($first) && is_subclass_of($first, 'BasicObject')){
 			$first = $first::table_name();
 		}
-		$parent_id = self::id_name($parent);
-		$first_id = self::id_name($first);
+		
 		if(!self::is_table($first)){
 			throw new Exception("No such table '$first'");
 		}
@@ -797,6 +889,8 @@ abstract class BasicObject {
 				'on' => "`{$connection['TABLE_NAME']}`.`{$connection['COLUMN_NAME']}` = `{$connection['REFERENCED_TABLE_NAME']}`.`{$connection['REFERENCED_COLUMN_NAME']}`"
 			);
 		} else {
+			$parent_id = self::id_name($parent);
+			$first_id = self::id_name($first);
 			if(in_array($first_id, $parent_columns)){
 				$joins[$first] = array(
 					"to" => $parent, 
@@ -826,6 +920,33 @@ abstract class BasicObject {
 			$tables[$table] = self::columns($table);
 		}
 		return in_array($column, $tables[$table]);
+	}
+
+	/**
+	 * Return only the first match of the given query
+	 * Takes the same options as selection
+	 */
+	public static function first($params = array()) {
+		$params['@limit']=1;
+		$sel = static::selection($params);
+		if(isset($sel[0])) {
+			return $sel[0];
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * Returns the only object that matches the given query
+	 * If there is more than one match an exception is thrown
+	 */
+	public static function one($params = array()) {
+		$sel = static::selection($params);
+		if(count($sel) <= 1) {
+			return isset($sel[0]) ? $sel[0] : null;
+		} else {
+			throw new Exception("Expected at most one match for query ".print_r($params, true)." but got ".count($sel));
+		}
 	}
 
 	private static function connection($table1, $table2) {
@@ -889,6 +1010,15 @@ abstract class BasicObject {
 			$stmt->close();
 		}
 		return $db_name;
+	}
+
+	public function __toString() {
+		$content = array();
+		foreach(self::columns($this->table_name()) as $c) {
+			$v = $this->$c == null ? "NULL":$this->$c;
+			$content[] = $c." => ".$v;
+		}
+		return get_class($this). "{".implode(", ",$content)."}";
 	}
 }
 class UndefinedMemberException extends Exception{}

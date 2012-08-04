@@ -1,7 +1,10 @@
 <?php
 $repo_root=dirname(__FILE__);
 
+define('HTML_ACCESS', true);
+
 include "settings.php";
+include "functions.php";
 
 /**
  * Automatiskt anropad av php-5 on-demand för att include:a filer med klassdefinitioner.
