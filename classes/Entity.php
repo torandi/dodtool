@@ -13,7 +13,8 @@ class Entity extends BasicObject {
 	}
 
 	public function armor_protection() {
-		return floor($this->armor / 10);
+		if($this->armor <= 0) return 0;
+		return max(floor($this->armor / 10),1);
 	}
 
 	public function armor_str() {
