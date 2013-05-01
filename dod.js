@@ -71,6 +71,11 @@ $(function() {
 			log(entity_container, "Uppdaterade status till " + data.state);
 		});
 	});
+
+	$('#rng').click(function() {
+		$('#rng_output').html("<b>Reslutat:</b> " + rnd(parseInt($('input[name=rnd_min]').val()), parseInt($('input[name=rnd_max]').val())) + "<br/>");
+		return false;
+	})
 });
 
 function progress_class(hp_percent) {
@@ -81,6 +86,10 @@ function progress_class(hp_percent) {
 	} else {
 		return "danger";
 	}
+}
+
+function rnd(from, to) {
+	return Math.round((to - from) * Math.random()) + from;
 }
 
 function log(entity_container, text) {

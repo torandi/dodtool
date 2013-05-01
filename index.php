@@ -13,28 +13,40 @@ include "index_actions.php";
 		<script src="dod.js" type="text/javascript"></script>
 		<link type="text/css" rel="stylesheet" href="bootstrap.min.css" />
 		<link type="text/css" rel="stylesheet" href="dod.css" />
-		
+
 		<link type="text/plain" rel="author" href="humans.txt" />
 	</head>
 	<body>
-	<div id="battle_select" class="well">
-		<h4>Ändra/skapa strid</h2>
-		<form method="get" class="form-horizontal">
-			<label for="battle_id">Befintlig strid:</label>
-			<select id="battle_id" name="id">
-<? foreach(Battle::selection() as $b) { ?>
-				<option value="<?=$b->id?>"><?=$b?></option>
-<? } ?>
-			</select>
-			<input type="submit" value="Välj" class="btn btn-primary"/>
-		</form>
-		<hr/>
-		<form method="post" class="form-horizontal">
-			<label for="battle_new">Ny strid: </label>
-			<input type="text" name="new_battle"/>
-			<input type="submit" value = "Skapa" class="btn btn-success"/>
-		</form>
+	<div id="float_right">
+		<div id="battle_select" class="well right_box">
+			<h4>Ändra/skapa strid</h2>
+			<form method="get" class="form-horizontal">
+				<label for="battle_id">Befintlig strid:</label>
+				<select id="battle_id" name="id">
+	<? foreach(Battle::selection() as $b) { ?>
+					<option value="<?=$b->id?>"><?=$b?></option>
+	<? } ?>
+				</select>
+				<input type="submit" value="Välj" class="btn btn-primary"/>
+			</form>
+			<hr/>
+			<form method="post" class="form-horizontal">
+				<label for="battle_new">Ny strid: </label>
+				<input type="text" name="new_battle"/>
+				<input type="submit" value = "Skapa" class="btn btn-success"/>
+			</form>
+		</div>
+
+		<div id="tools" class="well right_box">
+			<h4>Verktyg</h2>
+			<form class="form-horizontal">
+				<span id='rng_output'></span>
+				<?=range_field("tools", "rnd", "Slumptal")?>
+				<input type="submit" id='rng' value="Slupma tal" class="btn btn-primary"/>
+			</form>
+		</div>
 	</div>
+
 	<div id="content">
 	<?  if($battle) { ?>
 		<div class="page-header">

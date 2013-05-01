@@ -1,8 +1,21 @@
-#battle_select {
+#float_right {
 	float: right;
-	width: 300px;
 	margin: 5px;
+}
+
+.right_box {
+	width: 300px;
 	padding: 5px;
+	margin-top: 0px;
+	margin-bottom: 2px;
+}
+
+.right_box label {
+	width: auto !important;
+}
+
+.right_box .controls {
+	margin-left: 120px !important;
 }
 
 #content {
@@ -66,4 +79,8 @@
 	color: #999;
 	font-size: 0.9em;
 	line-height: 1.4em;
+}
+
+.form-horizontal .control-group:after {
+	clear: left !important;
 }
