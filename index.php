@@ -27,7 +27,9 @@ include "index_actions.php";
 					<option value="<?=$b->id?>"><?=$b?></option>
 	<? } ?>
 				</select>
-				<input type="submit" value="Välj" class="btn btn-primary"/>
+				<br/>
+				<input type="submit" name="action" value="Välj" class="btn btn-primary"/>
+				<input type="submit" name="action" value="Radera" style="float: right;"  onclick="return confirm('Är du säker på att du vill radera striden?');" class="btn btn-danger"/>
 			</form>
 			<hr/>
 			<form method="post" class="form-horizontal">
