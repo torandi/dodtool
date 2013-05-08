@@ -39,7 +39,10 @@
 
 	<div class='attributes'>
 		<strong>Liv: </strong> <span class='life_attr muted'><?=$entity->life_remaining?> / <?=$entity->life?></span><br/>
-		<strong>Rustning <?=($entity->armor_type == 'natural') ? " (naturlig)":""?>: </strong> <span class='armor_attr muted'><?=$entity->armor_str()?></span><br/>
+		<?php if($entity->natural_armor > 0) { ?>
+			<strong>Naturligt skydd: </strong> <span class='natural_armor_attr muted'><?=$entity->natural_armor?></span><br/>
+		<?php } ?>
+		<strong>Rustning: </strong> <span class='armor_attr muted'><?=$entity->armor_str()?></span><br/>
 		<form class='form-inline data-form'>
 			<input type='hidden' name='entity_id' class='entity-id' value='<?=$entity->id?>'/>
 			<label for='visible_<?=$entity->id?>'><strong>Synlig: </strong></label>

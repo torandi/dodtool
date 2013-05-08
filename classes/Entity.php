@@ -12,9 +12,13 @@ class Entity extends BasicObject {
 		return $this->life_remaining == 0;
 	}
 
+	public function protection() {
+		return $this->natural_armor + $this->armor_protection();
+	}
+
 	public function armor_protection() {
 		if($this->armor <= 0) return 0;
-		return max(floor($this->armor / 10),1);
+		return max(floor($this->armor / 10),1) + 0;
 	}
 
 	public function armor_str() {
@@ -22,12 +26,15 @@ class Entity extends BasicObject {
 	}
 
 	public function hit($damage) {
-		$damage_done = max($damage - $this->armor_protection(), 0);
-		if($this->armor_type != "natural") $this->armor -= $damage_done;
-		$this->life_remaining -= $damage_done;
+		$damage_done = max($damage - $this->protection(), 0);
+
+		$this->armor -= $damage_done;
 		if($this->armor < 0) $this->armor = 0;
+
+		$this->life_remaining -= $damage_done;
 		if($this->life_remaining < 0) $this->life_remaining = 0;
-		return $damage_done;	
+
+		return $damage_done;
 	}
 
 	public function life_percent() {

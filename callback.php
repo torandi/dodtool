@@ -15,7 +15,6 @@ if($action == "add_entity") {
 	$count = rand(post("count_min"), post("count_max"));
 	$base = array(
 		'battle_id' => post('battle_id'),
-		'armor_type' => post('armor_type'),
 		'type' => post('type'),
 		'visible' => post('visible', false) ? true : false,
 		'info' => post('info')
@@ -27,6 +26,7 @@ if($action == "add_entity") {
 		$entity->life = rand(post("life_min"), post("life_max"));
 		$entity->life_remaining = $entity->life;
 		$entity->armor = rand(post("armor_min"), post("armor_max"));
+		$entity->natural_armor = rand(post("natural_armor_min"), post("natural_armor_max"));
 		$entity->commit();
 		include "partials/entity.php";
 	}

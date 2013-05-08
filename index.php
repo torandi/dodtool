@@ -71,7 +71,7 @@ include "index_actions.php";
 				<?=field("add_entity", "name", "Namn", "text")?>
 				<?=range_field("add_entity", "life", "Liv: ")?>
 				<?=range_field("add_entity", "armor", "Rustning (BV): ")?>
-				<?=radio_select("add_entity", "armor_type", "Rustningstyp: ", array('normal'=>"Normal", 'natural'=>"Naturlig"))?>
+				<?=range_field("add_entity", "natural_armor", "Naturligt skydd (SV): ")?>
 				<?=radio_select("add_entity", "type", "Typ: ", array('hostile'=>"Fientlig", 'neutral'=>"Neutral", 'friendly' => "Vänlig"))?>
 				<?=field("add_entity", "visible", "Visa för spelare", "checkbox")?>
 				<?=textarea("add_entity", "info", "Info")?>
